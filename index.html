@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#ebe0ca">
+  <meta name="description" content="MISO — 一只住在奶油色房间里的黑猫。97 帧逐帧动画，会跟着鼠标看你的互动 Hero，以及一组可以翻转的观察闪卡。">
+  <title>MISO. — 黑猫观察档案</title>
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preload" as="image" href="assets/cat-sprite.jpg">
+  <link rel="preload" as="image" href="assets/cat.jpg">
+  <link rel="preload" as="font" type="font/woff2" href="assets/fonts/instrument-serif-latin-400-normal.woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">跳到主要内容</a>
+
+  <div class="atmosphere" aria-hidden="true">
+    <span class="atmosphere__grain"></span>
+    <span class="atmosphere__vignette"></span>
+    <span class="atmosphere__glow" id="glow"></span>
+  </div>
+
+  <div class="cursor" id="cursor" aria-hidden="true">
+    <span class="cursor__ring"></span>
+    <span class="cursor__dot"></span>
+  </div>
+
+  <div class="shell">
+    <aside class="rail">
+      <a class="rail__brand" href="#hero" data-view-link="hero" aria-label="MISO 主视觉">
+        <img src="assets/favicon.svg" width="38" height="38" alt="">
+        <span class="rail__brand-dot"></span>
+      </a>
+
+      <nav class="rail__nav" aria-label="视图切换">
+        <span class="rail__indicator" id="railIndicator" aria-hidden="true"></span>
+        <button class="rail__btn is-active" type="button" data-view="hero" aria-current="page" aria-label="切换到主视觉">
+          <span class="rail__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M1.8 12S5.5 5.8 12 5.8 22.2 12 22.2 12 18.5 18.2 12 18.2 1.8 12 1.8 12Z"/>
+              <circle cx="12" cy="12" r="3.2"/>
+            </svg>
+          </span>
+          <span class="rail__cn">主视觉</span>
+          <span class="rail__index">01</span>
+          <span class="rail__tip" aria-hidden="true">HERO / 主视觉</span>
+        </button>
+        <button class="rail__btn" type="button" data-view="cards" aria-label="切换到闪卡">
+          <span class="rail__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="6.2" y="4.2" width="13.6" height="15.6" rx="2.2"/>
+              <path d="M4.2 7.4v11.4a1 1 0 0 0 1 1h11.2"/>
+              <path d="M10 9.2h6M10 12.2h6M10 15.2h3.6"/>
+            </svg>
+          </span>
+          <span class="rail__cn">闪卡</span>
+          <span class="rail__index">02</span>
+          <span class="rail__tip" aria-hidden="true">CARDS / 闪卡</span>
+        </button>
+      </nav>
+
+      <div class="rail__foot">
+        <span class="rail__vertical">CREAM ROOM — EST. 2026</span>
+        <span class="rail__dot" aria-hidden="true"></span>
+      </div>
+    </aside>
+
+    <main class="stage" id="main">
+      <header class="topbar">
+        <a class="topbar__brand" href="#hero" data-view-link="hero" aria-label="MISO 首页">
+          <span class="topbar__word">MISO<span class="gold">.</span></span>
+          <span class="topbar__sub">FELINE ARCHIVE<br>黑猫观察档案</span>
+        </a>
+        <div class="topbar__right">
+          <span class="topbar__meta" id="topbarMeta">NO. 001 — CREAM ROOM</span>
+          <time class="topbar__time" id="clock">00:00</time>
+          <span class="status" id="statusPill" data-state="idle">
+            <span class="status__dot" aria-hidden="true"></span>
+            <span class="status__text" id="statusText">待机</span>
+          </span>
+        </div>
+      </header>
+
+      <section class="view view--hero is-active" id="view-hero" aria-labelledby="hero-title">
+        <div class="hero">
+          <p class="hero__eyebrow">
+            <span class="hero__eyebrow-line" aria-hidden="true"></span>
+            <span>INTERACTIVE PORTRAIT / 001</span>
+            <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+          </p>
+
+          <p class="hero__hint" id="heroHint">
+            <span class="hero__hint-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round">
+                <rect x="7.2" y="2.8" width="9.6" height="18.4" rx="4.8"/>
+                <path d="M12 6.2v4.2"/>
+              </svg>
+            </span>
+            <span class="hero__hint-text" id="heroHintText">移动鼠标 · 控制帧序列</span>
+          </p>
+
+          <div class="hero__guides" aria-hidden="true">
+            <span class="guide guide--l"></span>
+            <span class="guide guide--r"></span>
+            <span class="guide__cross guide__cross--tl"></span>
+            <span class="guide__cross guide__cross--tr"></span>
+            <span class="guide__cross guide__cross--bl"></span>
+            <span class="guide__cross guide__cross--br"></span>
+          </div>
+
+          <div class="hero__halo" aria-hidden="true">
+            <span class="hero__halo-dot"></span>
+          </div>
+
+          <div class="hero__horizon" aria-hidden="true">
+            <span class="hero__horizon-cap hero__horizon-cap--l"></span>
+            <span class="hero__horizon-cap hero__horizon-cap--r"></span>
+          </div>
+
+          <div class="hero__figure" id="heroFigure" role="slider" tabindex="0"
+               aria-label="MISO 的逐帧动画。移动鼠标或按左右方向键，改变它的视线。"
+               aria-valuemin="1" aria-valuemax="97" aria-valuenow="97" aria-valuetext="第 97 帧，待机">
+            <canvas id="catCanvas" width="300" height="400" aria-hidden="true"></canvas>
+            <span class="hero__focus-ring" aria-hidden="true"></span>
+          </div>
+
+          <div class="hero__loader" id="heroLoader" role="status">
+            <span class="loader__eye" aria-hidden="true"></span>
+            <span class="loader__text">WAKING UP <i>/</i> 正在睁眼</span>
+            <span class="loader__line" aria-hidden="true"><i></i></span>
+          </div>
+
+          <div class="hero__identity">
+            <p class="hero__kicker"><span aria-hidden="true"></span>A STUDY IN STILLNESS</p>
+            <h1 class="hero__title" id="hero-title">MISO<span class="gold">.</span></h1>
+            <p class="hero__lede">一只住在奶油色房间里的黑猫。<br>它不太动，但一直在看。</p>
+            <a class="hero__cta" href="#cards" data-view-link="cards">
+              <span class="hero__cta-dot" aria-hidden="true"></span>
+              <span>翻开观察卡</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M6 18 18 6M9 6h9v9"/>
+              </svg>
+            </a>
+          </div>
+
+          <div class="hero__instrument" aria-label="帧序列状态">
+            <div class="instrument__top">
+              <span>FRAME SEQUENCE</span>
+              <span class="instrument__mode" id="frameMode">IDLE</span>
+            </div>
+            <div class="instrument__readout">
+              <span class="instrument__num" id="frameNumber">097</span>
+              <span class="instrument__total">/ 097</span>
+            </div>
+            <div class="instrument__rail" id="frameRail">
+              <span class="instrument__ticks" aria-hidden="true"></span>
+              <span class="instrument__playhead" id="framePlayhead" aria-hidden="true"><i></i></span>
+            </div>
+            <div class="instrument__bottom">
+              <span>97 FRAMES</span>
+              <span>24 FPS · VANILLA JS</span>
+            </div>
+            <p class="instrument__hint">光标移出画面，它会慢慢回到待机。</p>
+          </div>
+
+          <p class="hero__side-note" aria-hidden="true">CENTERED · 3:4 · NO. 001</p>
+        </div>
+      </section>
+
+      <section class="view view--cards" id="view-cards" aria-labelledby="cards-title" aria-hidden="true" inert>
+        <div class="cards">
+          <span class="cards__bgno" aria-hidden="true">02</span>
+
+          <header class="cards__header">
+            <p class="cards__kicker"><span class="kicker__box">02</span> FLASH CARDS <i>/</i> 观察卡组</p>
+            <h2 class="cards__title" id="cards-title">五张卡片，一只猫<span class="gold">。</span></h2>
+            <p class="cards__lede">点击卡片翻转；用 ← → 或下方刻度切换。<br>每一张，都来自同一张画。</p>
+          </header>
+
+          <div class="deck" id="deck">
+            <span class="deck__glow" aria-hidden="true"></span>
+            <span class="deck__orbit" aria-hidden="true"></span>
+            <div class="deck__cards" id="deckCards"></div>
+            <button class="deck__arrow deck__arrow--prev" id="prevCard" type="button" aria-label="上一张卡片">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M19 12H5M11 6l-6 6 6 6"/>
+              </svg>
+            </button>
+            <button class="deck__arrow deck__arrow--next" id="nextCard" type="button" aria-label="下一张卡片">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6"/>
+              </svg>
+            </button>
+          </div>
+
+          <footer class="cards__footer">
+            <div class="cards__current" aria-live="polite">
+              <span class="cards__count" id="cardCount">01 / 05</span>
+              <span class="cards__name" id="cardName">凝视 / THE GAZE</span>
+            </div>
+            <div class="cards__dots" id="cardDots" role="group" aria-label="选择观察卡"></div>
+            <p class="cards__keys"><span>← → 切换</span><span>SPACE 翻转</span></p>
+          </footer>
+
+          <p class="cards__credit">MISO © 2026 — 97 FRAMES, ONE CAT.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div class="sr-only" id="liveRegion" aria-live="polite"></div>
+
+  <noscript>
+    <div class="noscript">这个互动需要 JavaScript 才能让 MISO 睁眼。</div>
+  </noscript>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
